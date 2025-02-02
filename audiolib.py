@@ -85,13 +85,18 @@ def stft(
 
 
 
-def analyse_audio(filename : str, **kwargs):
+
+
+
+def analyse_audio(filename : str = None, audio = None, **kwargs):
     
-    audio, sr = get_audio_from_dataset(filename, graph=False, **kwargs,)
+    sr = 16000
+    if filename is not None:
+        audio, sr = get_audio_from_dataset(filename, graph=False, **kwargs,)
     
-    rect_spectrogram = stft(audio, sr, wsize=512, hsize=None, fixed=True, window_fn=rect)
-    hann_spectrogram = stft(audio, sr, wsize=512, hsize=None, fixed=True, window_fn=hann)
-    hamm_spectrogram = stft(audio, sr, wsize=512, hsize=None, fixed=True, window_fn=hamm)
+    rect_spectrogram = stft(audio, sr, wsize=1024, hsize=None, fixed=True, window_fn=rect)
+    hann_spectrogram = stft(audio, sr, wsize=1024, hsize=None, fixed=True, window_fn=hann)
+    hamm_spectrogram = stft(audio, sr, wsize=1024, hsize=None, fixed=True, window_fn=hamm)
     
     rect_spectrogram = np.log(np.absolute(rect_spectrogram)) * 20
     hann_spectrogram = np.log(np.absolute(hann_spectrogram)) * 20
